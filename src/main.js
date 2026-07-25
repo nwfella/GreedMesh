@@ -16,12 +16,24 @@ import {
   PLAYER_SPEED, JUMP_SPEED, GRAVITY,
 } from './engine/constants.js';
 
-// ─── Setup ─────────────────────────────────────────────────────────
+// ─── Setup (with error isolation) ──────────────────────────────────
+
+// Wrap everything in a try-catch so the user can see what went wrong
+try {
 
 const canvas = document.getElementById('canvas');
+if (!canvas) throw new Error('Canvas element not found');
+
 const gl = canvas.getContext('webgl2', { antialias: true, alpha: false });
 if (!gl) {
-  document.body.innerHTML = '<h1 style="color:white;text-align:center;margin-top:40vh;">WebGL2 not supported</h1>';
+  // WebGL2 not available — show error on splash screen instead of blank
+  document.getElementById('blocker-content').innerHTML = `
+    <h1 style="color:#ff6b6b;">⚠️ WebGL2 Not Available</h1>
+    <p>Your browser or GPU doesn't support WebGL2.</p>
+    <p style="font-size:0.85rem;color:#888;margin-top:16px;">
+      Try Chrome, Edge, or Firefox (latest version) with hardware acceleration enabled.
+    </p>
+  `;
   throw new Error('WebGL2 required');
 }
 
@@ -410,3 +422,16 @@ blocker.addEventListener('click', () => {
 
 // Start loop
 requestAnimationFrame(gameLoop);
+
+// ─── End try-catch wrapper ──────────────────────────────────────────
+} catch (err) {
+  console.error('GreedMesh init error:', err);
+  const content = document.getElementById('blocker-content');
+  if (content) {
+    content.innerHTML = `
+      <h1 style="color:#ff6b6b;">⚠️ Error</h1>
+      <p>Something went wrong loading GreedMesh.</p>
+      <pre style="background:#1a1a1a;color:#ff6b6b;padding:12px;border-radius:8px;font-size:0.8rem;text-align:left;margin-top:16px;overflow:auto;">${err.message}</pre>
+    `;
+  }
+}

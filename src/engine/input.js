@@ -74,11 +74,20 @@ export class Input {
     return false;
   }
 
-  /** Request pointer lock on the canvas */
+  /** Request pointer lock — returns true if successful */
   requestLock() {
     if (!this.isLocked) {
-      this.canvas.requestPointerLock();
+      try {
+        this.canvas.setAttribute('tabindex', '0');
+        this.canvas.focus();
+        this.canvas.requestPointerLock();
+        return true;
+      } catch (e) {
+        console.warn('Pointer lock request failed:', e);
+        return false;
+      }
     }
+    return true;
   }
 
   dispose() {
