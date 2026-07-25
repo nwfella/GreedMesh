@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GreedMesh — Voxel Engine</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='4' y='4' width='24' height='24' rx='3' fill='%236c63ff'/><rect x='8' y='8' width='6' height='6' fill='%23a5b4fc'/><rect x='16' y='8' width='8' height='6' fill='%23a5b4fc'/><rect x='8' y='18' width='16' height='8' fill='%23a5b4fc'/></svg>">
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+
+  <!-- HUD overlay -->
+  <div id="hud">
+    <div id="crosshair">+</div>
+    <div id="blocker">
+      <div id="blocker-content">
+        <h1>⚡ GreedMesh</h1>
+        <p class="subtitle">WebGL2 voxel engine with greedy meshing</p>
+        <hr>
+        <p>Click to enter</p>
+        <div class="controls-info">
+          <div><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> Move</div>
+          <div><kbd>Space</kbd> Jump</div>
+          <div><kbd>Shift</kbd> Descend</div>
+          <div><kbd>Mouse</kbd> Look around</div>
+          <div><kbd>Left click</kbd> Remove block</div>
+          <div><kbd>Right click</kbd> Place block</div>
+          <div><kbd>1-6</kbd> Select block type</div>
+        </div>
+      </div>
+    </div>
+    <div id="stats">
+      <span id="fps-display">FPS: --</span>
+      <span id="tri-display">Tri: --</span>
+      <span id="chunk-display">Chunks: --</span>
+      <span id="pos-display">Pos: --, --, --</span>
+    </div>
+    <div id="block-selector">
+      <div class="block-slot active" data-block="1">🌿</div>
+      <div class="block-slot" data-block="2">🟫</div>
+      <div class="block-slot" data-block="3">🪨</div>
+      <div class="block-slot" data-block="5">🏖️</div>
+      <div class="block-slot" data-block="9">🪵</div>
+      <div class="block-slot" data-block="7">🌲</div>
+    </div>
+  </div>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "@/engine/": "./src/engine/",
+      "@/world/": "./src/world/",
+      "@/meshing/": "./src/meshing/"
+    }
+  }
+  </script>
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
